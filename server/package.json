@@ -4,9 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "graphql-yoga": "^1.14.12"
+    "graphql-yoga": "^1.14.12",
+    "pg-promise": "^8.4.5"
   },
   "scripts": {
-    "start": "node ."
+    "start": "node src/index.js"
   }
 }
