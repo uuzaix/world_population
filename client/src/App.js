@@ -1,21 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+
+import gql from "graphql-tag";
+import { graphql } from "react-apollo";
 
 class App extends Component {
   render() {
+    if (this.props.data.loading) {
+      return <div>Loading</div>;
+    }
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          {this.props.data.countries &&
+            this.props.data.countries.map((country, index) => {
+              return <li key={index}>{country}</li>;
+            })}
+        </ul>
       </div>
     );
   }
 }
 
-export default App;
+const COUNTRIES_QUERY = gql`
+  query countries($min: Int, $max: Int) {
+    countries(min: $min, max: $max)
+  }
+`;
+
+export default graphql(COUNTRIES_QUERY, {
+  options: props => ({ variables: { min: props.min, max: props.max } })
+})(App);
